@@ -1,0 +1,35 @@
+---
+export const prerender = false;
+
+import { eq, db, BooksTable } from "astro:db";
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { ProcessedBook } from "@/types/Books";
+
+const { id } = Astro.params;
+
+if (!id) {
+	return Astro.redirect("/");
+}
+
+const book = await db
+	.select()
+	.from(BooksTable)
+	.where(eq(BooksTable.id, Number(id)));
+
+if (!book) {
+	return Astro.redirect("/");
+}
+
+const { title, author, cover } = book[0] as unknown as ProcessedBook;
+---
+
+<BaseLayout>
+    <h1>{title}</h1>
+    <p>{author}</p>
+    {
+        cover.url && (
+            <img src={cover.url} alt={title} />
+        )
+    }
+</BaseLayout>

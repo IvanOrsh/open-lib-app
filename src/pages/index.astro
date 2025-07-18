@@ -14,22 +14,26 @@ const books = (await db
 <BaseLayout>
     <h1 class="text-3xl font-bold">Search for a book</h1>
     <SearchBooks client:load />
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid gap-4">
+        <h2 class="text-2xl font-bold">My Books</h2>
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
+
         {
             books.map((book: ProcessedBook) => (
-                <div>
+                <div class="grid gap-2 border rounded-md p-4 shadow-md hover:shadow-lg focus-within:shadow-lg transition-all hover:scale-105 focus-within:scale-105 relative">
                     { book.cover.url && (
                         <img src={book.cover.url} alt={book.title} />
                     )}
                     <h2>{book.title}</h2>
                     <p>{book.author}</p>
                     <Button variant="default" asChild>
-                        <a href={`/book/${book.id}`}>View</a>
+                        <a href={`/book/${book.id}`} aria-label="View Book" class="absolute inset-0"/>
                     </Button>
                 </div>
             ))
         }
 
     </div>
+    
     
 </BaseLayout>
