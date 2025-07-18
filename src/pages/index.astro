@@ -1,7 +1,10 @@
 ---
+import SearchBooks from "@/components/search/SearchBooks";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout>
-    <h1>Hey, There!</h1>
+    <h1 class="text-3xl font-bold">Search for a book</h1>
+    <SearchBooks client:load />
+    
 </BaseLayout>
