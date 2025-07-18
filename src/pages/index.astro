@@ -1,10 +1,35 @@
 ---
+import { db, BooksTable } from "astro:db";
+
+import type { ProcessedBook } from "@/types/Books";
+import { Button } from "@/components/ui/button";
 import SearchBooks from "@/components/search/SearchBooks";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const books = (await db
+	.select()
+	.from(BooksTable)) as unknown as ProcessedBook[];
 ---
 
 <BaseLayout>
     <h1 class="text-3xl font-bold">Search for a book</h1>
     <SearchBooks client:load />
+    <div class="grid grid-cols-3 gap-4">
+        {
+            books.map((book: ProcessedBook) => (
+                <div>
+                    { book.cover.url && (
+                        <img src={book.cover.url} alt={book.title} />
+                    )}
+                    <h2>{book.title}</h2>
+                    <p>{book.author}</p>
+                    <Button variant="default" asChild>
+                        <a href={`/book/${book.id}`}>View</a>
+                    </Button>
+                </div>
+            ))
+        }
+
+    </div>
     
 </BaseLayout>

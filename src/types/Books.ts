@@ -1,13 +1,12 @@
 export type ProcessedBook = {
 	title: string;
-	author: string[];
+	author: string;
 	cover: {
 		url: string | undefined;
 		width: number;
 		height: number;
 	};
 	id: string;
-	ratings_average: number;
 };
 
 export type Book = {
